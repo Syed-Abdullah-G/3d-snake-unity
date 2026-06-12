@@ -1,30 +1,49 @@
-# 3D Snake Game Unity
+# 3D Snake — Unity
 
-Welcome to the 3D rendition of the classic Snake game, developed using the Unity Game Engine. This complete project is freely available for download and use, offering a modern and immersive experience in the world of Unity game development.
+A modern 3D take on the classic Snake, built with **Unity 6** and the Universal Render Pipeline. Guide your snake around a walled arena, eat the food to grow longer, and weave between the spikes for as long as you can survive.
 
-## Features:
+## Gameplay
 
-### Grow Longer:
-Collect food strategically scattered across a three-dimensional environment to dynamically increase the length of your snake. Watch as your snake evolves in real-time!
+- **Grow longer** — 1–2 pieces of food are on the board at any time; eat the last one and a fresh batch appears, always on a free tile.
+- **Dodge the spikes** — hazards are scattered across the arena at the start of every run (never near your spawn, and never under food).
+- **Don't crash** — hitting a wall, a spike, or your own body ends the run: the snake turns black and collapses onto the board, and you can restart instantly.
 
-### Stay Alert:
-Navigate through the game space with precision to avoid collisions with walls and menacing spikes. A single collision spells game over, adding an extra layer of challenge and excitement to the gameplay.
+## Controls
 
-## How to Play:
+| Key | Action |
+|-----|--------|
+| W | Move up |
+| S | Move down |
+| A | Move left |
+| D | Move right |
 
-1. **Download the Project:**
-   Clone or download the project from this repository.
+## Screenshots
 
-2. **Open in Unity:**
-   Launch Unity and open the project to explore the game's assets, scripts, and scenes.
+*Snake at length 13, threading between spikes:*
 
-3. **Run the Game:**
-   Hit play to experience Unity Snake 3D firsthand. Use the arrow keys or controls to guide your snake through the immersive 3D environment.
+![Snake at length 13](Screenshots/snake-length-13.png)
 
-## Challenge Yourself:
+*Game over — the snake collapses where it crashed:*
 
-Enjoy this contemporary take on a timeless game and challenge yourself in the dynamic world of Unity Snake 3D. Experiment with the source code, customize the game mechanics, and make it your own!
+![Game over](Screenshots/snake-death.png)
 
+## How it works
 
+The game logic is fully **grid-based** — the snake is a list of integer cells, and movement, wall hits, self-collision, food pickup, and spike hits are all resolved with cell math. No Rigidbodies, colliders, or physics callbacks are used during play, which makes the gameplay deterministic and frame-rate independent. Physics is added only at the moment of death, purely for the collapse effect.
 
-![Screenshot (1368)](https://github.com/striderzz/3D-Snake-Unity/assets/72110940/3363b94b-b92f-4443-b7cb-09181b7e51cb)
+### Scripts (`Assets/Scripts`)
+
+| Script | Responsibility |
+|--------|----------------|
+| `GameManager` | Game state (playing / game over), score, and end-of-game UI. Self-creating singleton — no scene setup needed. |
+| `SnakeMovement` | The snake itself: buffered input (no 180° reversals), fixed-interval stepping, growth, and all collision checks. |
+| `GenerateFloor` | Builds the checkerboard floor and border ring, and defines the playable bounds everything else reads. |
+| `GenerateFood` | Keeps 1–2 foods on free tiles, spawn area derived from the floor bounds. |
+| `GenerateSpike` | Scatters spike hazards on free tiles at the start of each run, with a safe zone around the spawn. |
+| `Events` | UI button handlers (restart, menu, quit). |
+
+## Running the project
+
+1. Clone the repository.
+2. Open the project folder in Unity (6000.2 or later) via Unity Hub.
+3. Open `Assets/Scenes/Level.unity` and press Play.
