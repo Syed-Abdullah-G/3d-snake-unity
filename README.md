@@ -80,6 +80,3 @@ All primary game scripts are located in `Assets/Scripts`.
 - Universal Render Pipeline (URP)
 - Grid-based movement and collision detection
 - Unity Physics (death animation only)
-# 3d-snake-unity
-# 3d-snake-unity
-# 3d-snake-unity
